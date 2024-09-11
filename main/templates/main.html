@@ -1,4 +1,4 @@
-<h1>Welcome to Thrift Shop! (E-commerce)</h1>
+<!-- <h1>Welcome to Thrift Shop! </h1>
 
 <h5>Name: </h5>
 <p>{{name}}</p>
@@ -8,13 +8,81 @@
 <p>{{description}}</p>
 <h5>Category: </h5>
 <p>{{category}}</p>
+<h5>Brand: </h5>
+<p>{{brand}}</p>
 <h5>Condition: </h5>
 <p>{{condition}}</p>
 <h5>Stock: </h5>
 <p>{{stock}}</p>
 <h5>Image: </h5>
-<p>{{image}}</p>
-<h5>Brand: </h5>
-<p>{{brand}}</p>
-<h5>Sold: </h5>
-<p>{{sold}}</p>
+<p>{{image}}</p> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thrift Shop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff2da;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2a15c8;
+        }
+
+        .slog {
+            text-align: center; 
+            font-size: 1.2em; 
+            color: #d9be13;
+        }
+
+        h5 {
+            color: #100f0f;
+        }
+
+        p {
+            color: #7e277a;
+            font-size: 1.1em;
+        }
+
+        .product-image {
+            display: block;
+            margin: 20px auto;
+            max-width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Thrift Shop!</h1>
+    <p class= "slog">"Old But Gold"</p>
+
+    <!-- <img src="{{ image }}" alt="{{ name }}" class="product-image"> -->
+
+    <h5>Name:</h5>
+    <p>{{ name }}</p>
+
+    <h5>Price:</h5>
+    <p>{{ price }}</p>
+
+    <h5>Description:</h5>
+    <p>{{ description }}</p>
+
+    <h5>Category:</h5>
+    <p>{{ category }}</p>
+
+    <h5>Brand:</h5>
+    <p>{{ brand }}</p>
+
+    <h5>Condition:</h5>
+    <p>{{ condition }}</p>
+
+    <h5>Stock:</h5>
+    <p>{{ stock }}</p>
+</body>
+</html>
