@@ -1,69 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thrift Shop</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #fff2da;
-            margin: 0;
-            padding: 20px;
-        }
+{% extends 'base.html' %}
 
-        h1 {
-            text-align: center;
-            color: #2a15c8;
-        }
+{% block content %}
+    <h1 style="text-align: center;">Welcome to Thrift Shop!</h1>
+    <h1 style="text-align: center; color: goldenrod;">"Old But Gold"</h1>
 
-        .slog {
-            text-align: center; 
-            font-size: 1.2em; 
-            color: #d9be13;
-        }
+    {% if not products %}
+    <p>Belum ada produk yang tersedia.</p>
+    {% else %}
+    <table border="1" cellpadding="5" cellspacing="10" >
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Brand</th>
+            <th>Condition</th>
+            <th>Stock</th>
+        </tr>
 
-        h5 {
-            color: #100f0f;
-        }
+        {% for product in products %}
+        <tr>
+            <td>
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" width="100">
+                {% else %}
+                    No Image
+                {% endif %}
+            </td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.formatted_price }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.brand }}</td>
+            <td>{{ product.condition }}</td>
+            <td>{{ product.stock }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
 
-        p {
-            color: #7e277a;
-            font-size: 1.1em;
-        }
+    <br />
 
-        .product-image {
-            display: block;
-            margin: 20px auto;
-            max-width: 300px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Welcome to Thrift Shop!</h1>
-    <p class= "slog">"Old But Gold"</p>
+    <a href="{% url 'main:create_product' %}">
+        <button>Add New Product</button>
+    </a>
 
-    <!-- <img src="{{ image }}" alt="{{ name }}" class="product-image"> -->
-
-    <h5>Name:</h5>
-    <p>{{ name }}</p>
-
-    <h5>Price:</h5>
-    <p>{{ price }}</p>
-
-    <h5>Description:</h5>
-    <p>{{ description }}</p>
-
-    <h5>Category:</h5>
-    <p>{{ category }}</p>
-
-    <h5>Brand:</h5>
-    <p>{{ brand }}</p>
-
-    <h5>Condition:</h5>
-    <p>{{ condition }}</p>
-
-    <h5>Stock:</h5>
-    <p>{{ stock }}</p>
-</body>
-</html>
+{% endblock %}
