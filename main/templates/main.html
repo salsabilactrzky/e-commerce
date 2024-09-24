@@ -3,6 +3,7 @@
 {% block content %}
     <h1 style="text-align: center;">Welcome to Thrift Shop!</h1>
     <h1 style="text-align: center; color: goldenrod;">"Old But Gold"</h1>
+    <h3 style="color: blue;">Hello, {{ name }}! These are your products:</h3>
 
     {% if not products %}
     <p>Belum ada produk yang tersedia.</p>
@@ -45,5 +46,11 @@
     <a href="{% url 'main:create_product' %}">
         <button>Add New Product</button>
     </a>
+
+    <a href="{% url 'main:logout' %}">
+        <button>Logout</button>
+    </a>
+
+    <h5>Sesi terakhir login: {{ last_login }}</h5>
 
 {% endblock %}

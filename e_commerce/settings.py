@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-f#!&g96%=*yunz4vct59b=^cl_dyqjyz8zi7p)3k04tn==u1t^"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+PRODUCTION = os.getenv("PRODUCTION", False)
+DEBUG = not PRODUCTION
 
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "salsabila-caturizky-ecommerce.pbp.cs.ui.ac.id"]
@@ -120,4 +122,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Tmabahin media untuk image product
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
