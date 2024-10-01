@@ -1,0 +1,39 @@
+/* Form Styling */
+.form-style form input, form textarea, form select {
+    width: 100%;
+    padding: 0.75rem; /* Lebih besar dari sebelumnya */
+    border: 2px solid #a1a1a1; /* Ganti warna border */
+    border-radius: 0.5rem; /* Lebih bulat */
+    background-color: #f9f9f9; /* Tambahkan warna background */
+}
+
+.form-style form input:focus, form textarea:focus, form select:focus {
+    outline: none;
+    border-color: #3498db; /* Ganti warna focus */
+    box-shadow: 0 0 0 2px #3498db80; /* Ganti warna box-shadow */
+}
+
+/* Animasi shine */
+@keyframes shine {
+    0% { background-position: -150% 0; } /* Ganti posisi awal */
+    100% { background-position: 150% 0; } /* Ganti posisi akhir */
+}
+
+.animate-shine {
+    background: linear-gradient(120deg, #ffffff33, #ffffff0d 50%, #ffffff33); /* Ganti transparansi warna */
+    background-size: 150% 100%; /* Ganti ukuran background */
+    animation: shine 2s linear infinite; /* Ganti durasi dan jenis animasi */
+}
+
+/* Styling tambahan */
+.button-primary {
+    background-color: #3498db; /* Ganti warna sesuai tema */
+    border-radius: 0.375rem;
+    color: white;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.button-primary:hover {
+    background-color: #2980b9; /* Warna hover */
+}

@@ -1,0 +1,42 @@
+<nav class="bg-blue-900 sticky top-0 z-50">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div class="relative flex h-16 items-center justify-between">
+        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+          <!-- Mobile menu button -->
+          <button type="button" class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-16 6h16" />
+            </svg>
+          </button>
+        </div>
+        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+          <a href="{% url 'main:show_main' %}" class="flex-shrink-0 text-white text-2xl font-bold">Thrift Shop</a>
+          <div class="hidden sm:ml-6 sm:block">
+            <div class="flex space-x-4">
+              <a href="{% url 'main:show_main' %}" class="bg-gray-900 text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+              <a href="{% url 'main:create_product' %}" class="bg-gray-900 text-gray-200 hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Add Product</a>
+            </div>
+          </div>
+        </div>
+        <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          {% if user.is_authenticated %}
+          <span class="text-gray-300 mr-4">Welcome, {{ user.username }}</span>
+          <a href="{% url 'main:logout' %}" class="bg-red-500 text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
+          {% else %}
+          <a href="{% url 'main:login' %}" class="bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium">Login</a>
+          <a href="{% url 'main:register' %}" class="bg-green-500 text-white px-3 py-2 rounded-md text-sm font-medium">Register</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  
+    <!-- Mobile menu, toggle visibility -->
+    <div class="sm:hidden" id="mobile-menu">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <a href="{% url 'main:show_main' %}" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+        <a href="{% url 'main:create_product' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Add Product</a>
+      </div>
+    </div>
+  </nav>
+  
