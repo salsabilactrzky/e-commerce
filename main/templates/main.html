@@ -3,10 +3,10 @@
 
 {% block content %}
 {% include 'navbar.html' %}
-<div class="px-4 md:px-8 pt-8 min-h-screen bg-blue-100">
-    <h1 class="text-center text-4xl font-extrabold text-gray-900 mb-2">Welcome to Thrift Shop!</h1>
-    <h2 class="text-center text-2xl text-yellow-500 font-semibold">"Old But Gold"</h2>
-    <h3 class="text-center text-blue-600 text-xl mt-4">Hello, {{ name }}! These are your products:</h3>
+<div class="px-4 md:px-8 pt-8 min-h-screen bg-blue-50">
+    <h1 class="text-center text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2">Welcome to Thrift Shop!</h1>
+    <h2 class="text-center text-xl sm:text-2xl text-yellow-500 font-semibold">"Old But Gold"</h2>
+    <h3 class="text-center text-base sm:text-xl text-blue-600 mt-1">Hello, {{ name }}! These are your products:</h3>
 
     {% if not products %}
     <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
@@ -47,9 +47,9 @@
         <a href="{% url 'main:create_product' %}" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md">Add New Product</a>
     </div>
 
-    <!-- Sesi terakhir login -->
+    <!-- Last login -->
     <div class="mt-7 flex justify-center">
-        <p class="bg-blue-600 px-5 py-3 text-white font-mono rounded shadow-lg">Sesi terakhir login: {{ last_login }}</p>
+        <p class="bg-blue-600 px-5 py-3 text-white font-mono rounded shadow-lg">Last Login: {{ last_login }}</p>
     </div>
 </div>
 {% endblock content %}
