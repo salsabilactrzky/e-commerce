@@ -86,3 +86,27 @@ seperti routing, ORM. Bahasa pemrograman django juga menggunakan Python, yang ma
 6. 2 User dengan 3 Dummy Product
    ![Alt text](<Screen Shot 2024-09-25 at 11.23.54.png>)
    ![Alt text](<Screen Shot 2024-09-25 at 11.24.21.png>)
+
+
+**TUGAS 5**
+
+1. Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+   Inline styles (atribut style) memiliki prioritas tertinggi. Lalu, ID selectors (#id) memiliki prioritas lebih tinggi dibandingkan class atau tag. Selanjutnya, Class selectors, attribute selectors, dan pseudo-classes. Setelah itu, Element selectors seperti div atau p. Lalu prioritas terendah adalah Universal selector dan inheritance. Jika terdapat selector dengan tingkat specificity yang sama, selector yang didefinisikan terakhir di dalam stylesheet akan diterapkan  (cascading).
+ 
+2. Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design!
+   Karena, dengan Responsive Design, aplikasi web dapat disesuaikan dengan ukuran layar berbeda (desktop, mobile). Ini penting karena pengguna dapat mengakses web dari berbagai perangkat dengan ukuran layar yang bervariasi, namun tampilan & performa web harus tetap optimal. Tanpa responsive design, aplikasi web dapat terlihat buruk atau tidak berfungsi dengan baik di perangkat tertentu. Contoh aplikasi yang sudah menerapkan Responsive Design: Google, Youtube, Netflix, Shopee. Sedangkan aplikasi yang belum menerapkan Responsive Design mungkin seperti aplikasi yang sudah tua, yang banyak content statis tanpa element interaktif, lalu web yang didesign hanya untuk desktop, teks dan gambarnya terlalu besar atau kecil.
+ 
+3. Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
+   Margin adalah jarak ruang di luar elemen.
+   Border adalah garis di sekitar konten elemen.
+   Padding adalah ruang di dalam elemen, jarak antara konten dan border.
+   Implementasiannya, margin: 20px; border: 2px solid black; padding: 10px;.
+ 
+4. Jelaskan konsep flex box dan grid layout beserta kegunaannya!
+   Flex box adalah model layout satu dimensi (baris atau kolom) yang digunakan untuk mengatur tata letak elemen dalam satu arah secara horizontal atau vertikal.
+   Grid layout adalah model layout dua dimensi (baris dan kolom) yang digunakan untuk membuat tata letak yang lebih kompleks dengan menggunakan baris dan kolom. Grid cocok untuk design halaman web yang punya banyak komponen.
+
+5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+   Untuk CSS ssaya menggunakan Tailwind, saya menyambungkan tailwind dengan template django di base.html. 
+   Saya menambahkan fitur Edit dan Delete Produk dengan membuat fungsi2nya di views.py, membuat file html, routing urls.py, dan menambahkan tombol buttonnya di main.html.
+   Lalu saya mendekorasi design halaman web, dengan menambahkan navigation bar. Saya membuat file htmlnya, lalu menautkan navbar ke file html lainnya. Saya juga mengatur settings untuk konfigurasi static files. Lalu saya mendesign halaman web dengan css tailwind di global.css, design untuk halaman login, register, dan main. Juga menggunakan Flexbox dan Grid Layout untuk menyesuaikan tampilan di semua ukuran layar.
