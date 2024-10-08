@@ -110,3 +110,23 @@ seperti routing, ORM. Bahasa pemrograman django juga menggunakan Python, yang ma
    Untuk CSS ssaya menggunakan Tailwind, saya menyambungkan tailwind dengan template django di base.html. 
    Saya menambahkan fitur Edit dan Delete Produk dengan membuat fungsi2nya di views.py, membuat file html, routing urls.py, dan menambahkan tombol buttonnya di main.html.
    Lalu saya mendekorasi design halaman web, dengan menambahkan navigation bar. Saya membuat file htmlnya, lalu menautkan navbar ke file html lainnya. Saya juga mengatur settings untuk konfigurasi static files. Lalu saya mendesign halaman web dengan css tailwind di global.css, design untuk halaman login, register, dan main. Juga menggunakan Flexbox dan Grid Layout untuk menyesuaikan tampilan di semua ukuran layar.
+
+
+
+**TUGAS 6**
+1. Jelaskan manfaat dari penggunaan JavaScript dalam pengembangan aplikasi web!
+   JavaScript memungkinkan penambahan elemen interaktif (tombol, animasi, validasi). Lalu, dengan AJAX dapat memperbarui konten secara asinkron tanpa refresh seluruh halaman. Mengontrol elemen HTML atau CSS secara langsung sehingga pengalaman client lebih responsif. Lalu, menjalankan kode juga di browser client sehingga respon aplikasi lebih cepat.
+
+2. Jelaskan fungsi dari penggunaan await ketika kita menggunakan fetch()! Apa yang akan terjadi jika kita tidak menggunakan await?
+   await pada fetch() berfungsi untuk menghentikan eksekusi code selanjutnya sampai request fetch selesai. Jadi, await memastikan data yang diambil sudah siap sebelum lanjut ke langkah berikutnya.
+   
+   Jika tidak menggunakan await, program akan langsung lanjut eksekusi code selanjutnya tanpa menunggu hasil fetch(). Yang mana dapat menimbulkan error, karena program mencoba menggunakan data yang belum tersedia.
+
+3. Mengapa kita perlu menggunakan decorator csrf_exempt pada view yang akan digunakan untuk AJAX POST?
+   Karena csrf_exempt menonaktifkan pemeriksaan token CSRF (Cross-Site Request Forgery) di Django. Ini diperlukan ketika request AJAX POST tidak menyertakan token CSRF, yang mana requestnya akan ditolak oleh Django.
+
+4. Pada tutorial PBP minggu ini, pembersihan data input pengguna dilakukan di belakang (backend) juga. Mengapa hal tersebut tidak dilakukan di frontend saja?
+   Karena validasi di frontend dapat dilewati pengguna dengan mematikan JavaScript atau modifikasih HTML melalui browser. Aplikasi menjadi rentan terhadap serangan (XSS atau injection). Pembersihan di backend memastikan data yang disimpan di server aman.
+
+5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+   Saya menambahkan message error (invalid username or password) pada login, lalu saya pakai AJAX POST untuk menabmahkan produk baru dengan membuat fungsi addProduct di main.html yang mengirimkan data produk ke endpoint add_prodcut_ajax. Lalu routing add_product_ajax di urls.py. Setelah itu, menggunakan AJAX GET untuk menampilkan data produk pakai fetch dan buat fungsi getProducts dan refreshProducts. Lalu, membuat modal dengan Tailwind untuk form input. Setelah itu juga menambhakan validasi backend dengan fungsi strip_tags ysng melindingi dari XSS, menggunakan DOMPurify di frontend untuk membersihkaN data produk yang diambil API sebelum ditampilkan di halaman web.
