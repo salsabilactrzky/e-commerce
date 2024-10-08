@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block meta %}
+<title>Thrift Shop</title>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+{% endblock meta %}
+
 {% block content %}
 {% include 'navbar.html' %}
 <div class="px-4 md:px-8 pt-8 min-h-screen bg-blue-50">
@@ -8,43 +13,55 @@
     <h2 class="text-center text-xl sm:text-2xl text-yellow-500 font-semibold">"Old But Gold"</h2>
     <h3 class="text-center text-base sm:text-xl text-blue-600 mt-1">Hello, {{ name }}! These are your products:</h3>
 
-    {% if not products %}
-    <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
-        <img src="{% static 'image/sadpanda.png' %}" alt="No products" class="w-32 h-32 mb-4"/>
-        <p class="text-gray-600 text-center">Belum ada produk yang terdaftar di Thrift Shop.</p>
-    </div>
-    {% else %}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 mt-7">
-        {% for product in products %}
-        <div class="bg-gray-50 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
-            <div class="p-4">
-                {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-48 object-contain mb-4">
-                {% else %}
-                <div class="bg-gray-100 w-full h-48 flex items-center justify-center text-gray-500">No Image</div>
-                {% endif %}
+    <div id="product_cards"></div>
 
-                <div class="bg-blue-400 text-white font-semibold text-center py-2 rounded-md mb-4">
-                    <h3 class="text-xl">{{ product.name }}</h3>
-                </div>
-                <p class="text-gray-600">Description: {{ product.description }}</p>
-                <p class="text-gray-600">Price: {{ product.formatted_price }}</p>
-                <p class="text-gray-600">Category: {{ product.category }}</p>
-                <p class="text-gray-600">Brand: {{ product.brand }}</p>
-                <p class="text-gray-600">Condition: {{ product.condition }}</p>
-                <p class="text-gray-600">Stock: {{ product.stock }}</p>
-            </div>
-            <div class="flex justify-between items-center bg-gray-50 p-4">
-                <a href="{% url 'main:edit_product' product.pk %}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">Edit</a>
-                <a href="{% url 'main:delete_product' product.pk %}" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md">Delete</a>
-            </div>
+    <div id="crudModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-blue-900 bg-opacity-50 overflow-x-hidden overflow-y-auto transition-opacity duration-300 ease-out">
+        <div id="crudModalContent" class="relative bg-white rounded-lg shadow-lg w-5/6 sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 sm:mx-0 transform scale-95 opacity-0 transition-transform transition-opacity duration-300 ease-out">
+          <!-- Modal header -->
+          <div class="flex items-center justify-between p-4 border-b rounded-t bg-blue-500">
+            <h3 class="text-xl font-semibold text-white">
+              Add New Product
+            </h3>
+            <button type="button" class="text-white bg-transparent hover:bg-blue-600 hover:text-white rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" id="closeModalBtn">
+              <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+              </svg>
+              <span class="sr-only">Close modal</span>
+            </button>
+          </div>
+          <!-- Modal body -->
+          <div class="px-6 py-4 space-y-6 form-style">
+            <form id="productForm">
+              <div class="mb-4">
+                <label for="name" class="block text-sm font-medium text-gray-700">Product Name</label>
+                <input type="text" id="name" name="name" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-yellow-500" placeholder="Enter product name" required>
+              </div>
+              <div class="mb-4">
+                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                <textarea id="description" name="description" rows="3" class="mt-1 block w-full h-20 resize-none border border-gray-300 rounded-md p-2 hover:border-yellow-500" placeholder="Describe the product" required></textarea>
+              </div>
+              <div class="mb-4">
+                <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                <input type="number" id="price" name="price" min="1" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-yellow-500" required>
+              </div>
+              <div class="mb-4">
+                <label for="stock" class="block text-sm font-medium text-gray-700">Stock</label>
+                <input type="number" id="stock" name="stock" min="1" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-yellow-500" required>
+              </div>
+            </form>
+          </div>
+          <!-- Modal footer -->
+          <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 p-6 border-t border-gray-200 rounded-b justify-center md:justify-end">
+            <button type="button" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg" id="cancelButton">Cancel</button>
+            <button type="submit" id="submitProduct" form="productForm" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Save Product</button>
+          </div>
         </div>
-        {% endfor %}
-    </div>
-    {% endif %}
+      </div>
+      
 
     <div class="flex justify-end mt-8">
         <a href="{% url 'main:create_product' %}" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md">Add New Product</a>
+        <button data-modal-target="crudModal" data-modal-toggle="crudModal" class="btn bg-indigo-700 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105" onclick="showModal();">Add New Product by AJAX</button>
     </div>
 
     <!-- Last login -->
@@ -52,4 +69,113 @@
         <p class="bg-blue-600 px-5 py-3 text-white font-mono rounded shadow-lg">Last Login: {{ last_login }}</p>
     </div>
 </div>
+
+<script>
+    // Fungsi untuk memformat harga menjadi format "Rp" dengan ribuan
+    function formatPrice(price) {
+        return "Rp" + parseInt(price).toLocaleString('id-ID');
+    }
+
+    // Fungsi untuk mengambil data produk dari endpoint JSON
+    async function getProducts() {
+        return fetch("{% url 'main:show_json' %}").then((res) => res.json());
+    }
+
+    // Fungsi untuk merefresh daftar produk di halaman secara asinkronus
+    async function refreshProducts() {
+        // Kosongkan dan reset elemen product_cards
+        document.getElementById("product_cards").innerHTML = "";
+        document.getElementById("product_cards").className = "";
+        const products = await getProducts(); // Ambil data produk
+        let htmlString = "";
+        let classNameString = "";
+
+        // Jika tidak ada produk, tampilkan pesan "belum ada produk"
+        if (products.length === 0) {
+            classNameString = "flex flex-col items-center justify-center min-h-[24rem] p-6";
+            htmlString = `
+                <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+                    <img src="{% static 'image/sadpanda.png' %}" alt="No products" class="w-32 h-32 mb-4"/>
+                    <p class="text-gray-600 text-center">Belum ada produk yang terdaftar di Thrift Shop.</p>
+                </div>
+            `;
+        } else {
+            // Jika ada produk, tampilkan dalam bentuk card
+            classNameString = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 mt-7";
+            products.forEach((item) => {
+                const name = DOMPurify.sanitize(item.fields.name);
+                const description = DOMPurify.sanitize(item.fields.description);
+                const brand = DOMPurify.sanitize(item.fields.brand);
+                const formattedPrice = formatPrice(item.fields.price); 
+                htmlString += `
+                    <div class="bg-gray-50 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                        <div class="p-4">
+                            <img src="/media/${item.fields.image}" alt="${item.fields.name}" class="w-full h-48 object-contain mb-4">
+                            <div class="bg-blue-400 text-white font-semibold text-center py-2 rounded-md mb-4">
+                                <h3 class="text-xl">${name}</h3>
+                            </div>
+                            <p class="text-gray-600">Description: ${description}</p>
+                            <p class="text-gray-600">Price: ${formattedPrice}</p>
+                            <p class="text-gray-600">Category: ${item.fields.category}</p>
+                            <p class="text-gray-600">Brand: ${brand}</p>
+                            <p class="text-gray-600">Condition: ${item.fields.condition}</p>
+                            <p class="text-gray-600">Stock: ${item.fields.stock}</p>
+                        </div>
+                        <div class="flex justify-between items-center bg-gray-50 p-4">
+                            <a href="/edit-product/${item.pk}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">Edit</a>
+                            <a href="/delete-product/${item.pk}" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md">Delete</a>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Set class dan innerHTML untuk menampilkan produk
+        document.getElementById("product_cards").className = classNameString;
+        document.getElementById("product_cards").innerHTML = htmlString;
+    }
+
+    // Panggil fungsi untuk me-refresh daftar produk saat halaman dimuat
+    refreshProducts();
+
+    const modal = document.getElementById('crudModal');
+    const modalContent = document.getElementById('crudModalContent');
+
+    function showModal() {
+        modal.classList.remove('hidden'); 
+        setTimeout(() => {
+            modalContent.classList.remove('opacity-0', 'scale-95');
+            modalContent.classList.add('opacity-100', 'scale-100');
+        }, 50); 
+    }
+
+    function hideModal() {
+        modalContent.classList.remove('opacity-100', 'scale-100');
+        modalContent.classList.add('opacity-0', 'scale-95');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 150); 
+    }
+
+    document.getElementById("cancelButton").addEventListener("click", hideModal);
+    document.getElementById("closeModalBtn").addEventListener("click", hideModal);
+
+    function addProduct() {
+        fetch("{% url 'main:add_product_ajax' %}", {
+            method: "POST",
+            body: new FormData(document.querySelector('#productForm')),
+        })
+        .then(response => refreshProducts())  // Fungsi refreshProducts untuk menampilkan produk terbaru setelah penambahan.
+
+        document.getElementById("productForm").reset();  // Mengosongkan form setelah submit.
+        document.querySelector("[data-modal-toggle='crudModal']").click();  // Menutup modal setelah submit.
+
+        return false;  // Mencegah refresh halaman.
+    }
+    document.getElementById("productForm").addEventListener("submit", (e) => {
+    e.preventDefault();  // Mencegah refresh halaman setelah submit.
+    addProduct();  // Memanggil fungsi addProduct untuk menambahkan produk melalui AJAX.
+    });
+</script>
+
 {% endblock content %}
