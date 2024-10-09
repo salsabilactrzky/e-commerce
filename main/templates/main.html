@@ -30,26 +30,55 @@
             </button>
           </div>
           <!-- Modal body -->
-          <div class="px-6 py-4 space-y-6 form-style">
-            <form id="productForm">
-              <div class="mb-4">
-                <label for="name" class="block text-sm font-medium text-gray-700">Product Name</label>
-                <input type="text" id="name" name="name" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-yellow-500" placeholder="Enter product name" required>
-              </div>
-              <div class="mb-4">
-                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                <textarea id="description" name="description" rows="3" class="mt-1 block w-full h-20 resize-none border border-gray-300 rounded-md p-2 hover:border-yellow-500" placeholder="Describe the product" required></textarea>
-              </div>
-              <div class="mb-4">
-                <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
-                <input type="number" id="price" name="price" min="1" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-yellow-500" required>
-              </div>
-              <div class="mb-4">
-                <label for="stock" class="block text-sm font-medium text-gray-700">Stock</label>
-                <input type="number" id="stock" name="stock" min="1" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-yellow-500" required>
-              </div>
+          <div class="px-6 py-4 space-y-6 form-style overflow-auto" style="max-height: 80vh;">
+            <form id="productForm" enctype="multipart/form-data">
+                <div class="mb-4">
+                    <label for="name" class="block text-sm font-medium text-gray-700">Product Name</label>
+                    <input type="text" id="name" name="name" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-yellow-500" placeholder="Enter product name" required>
+                </div>
+                <div class="mb-4">
+                    <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                    <input type="number" id="price" name="price" min="1" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-yellow-500" placeholder="Enter product price" required>
+                </div>
+                <div class="mb-4">
+                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea id="description" name="description" rows="3" class="mt-1 block w-full resize-none border border-gray-300 rounded-md p-2 hover:border-yellow-500" placeholder="Describe the product" required></textarea>
+                </div>
+                <div class="mb-4">
+                    <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+                    <select id="category" name="category" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-yellow-500">
+                        <option value="" disabled selected>----------</option>
+                        <option value="Clothes">Clothes</option>
+                        <option value="Bag">Bag</option>
+                        <option value="Shoes">Shoes</option>
+                        <option value="Accessories">Accessories</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="brand" class="block text-sm font-medium text-gray-700">Brand</label>
+                    <input type="text" id="brand" name="brand" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-yellow-500" placeholder="Enter product brand">
+                </div>
+                <div class="mb-4">
+                    <label for="condition" class="block text-sm font-medium text-gray-700">Condition</label>
+                    <select id="condition" name="condition" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-yellow-500">
+                        <option value="" disabled selected>----------</option>
+                        <option value="Fari">Fair</option>
+                        <option value="Good">Good</option>
+                        <option value="Like New">Like New</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="stock" class="block text-sm font-medium text-gray-700">Stock</label>
+                    <input type="number" id="stock" name="stock" min="1" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-yellow-500" placeholder="Enter product stock" required>
+                </div>
+                <div class="mb-4">
+                    <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
+                    <input type="file" id="image" name="image" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-yellow-500" accept="image/*">
+                </div>
             </form>
-          </div>
+        </div>
+        
           <!-- Modal footer -->
           <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 p-6 border-t border-gray-200 rounded-b justify-center md:justify-end">
             <button type="button" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg" id="cancelButton">Cancel</button>
@@ -61,7 +90,7 @@
 
     <div class="flex justify-end mt-8">
         <a href="{% url 'main:create_product' %}" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md">Add New Product</a>
-        <button data-modal-target="crudModal" data-modal-toggle="crudModal" class="btn bg-indigo-700 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105" onclick="showModal();">Add New Product by AJAX</button>
+        <button data-modal-target="crudModal" data-modal-toggle="crudModal" class="btn bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md" onclick="showModal();">Add New Product by AJAX</button>
     </div>
 
     <!-- Last login -->
@@ -142,23 +171,30 @@
     const modalContent = document.getElementById('crudModalContent');
 
     function showModal() {
+        const modal = document.getElementById('crudModal');
+        const modalContent = document.getElementById('crudModalContent');
+
         modal.classList.remove('hidden'); 
         setTimeout(() => {
-            modalContent.classList.remove('opacity-0', 'scale-95');
-            modalContent.classList.add('opacity-100', 'scale-100');
+          modalContent.classList.remove('opacity-0', 'scale-95');
+          modalContent.classList.add('opacity-100', 'scale-100');
         }, 50); 
     }
 
     function hideModal() {
+        const modal = document.getElementById('crudModal');
+        const modalContent = document.getElementById('crudModalContent');
+
         modalContent.classList.remove('opacity-100', 'scale-100');
         modalContent.classList.add('opacity-0', 'scale-95');
+
         setTimeout(() => {
-            modal.classList.add('hidden');
+          modal.classList.add('hidden');
         }, 150); 
     }
 
-    document.getElementById("cancelButton").addEventListener("click", hideModal);
-    document.getElementById("closeModalBtn").addEventListener("click", hideModal);
+  document.getElementById("cancelButton").addEventListener("click", hideModal);
+  document.getElementById("closeModalBtn").addEventListener("click", hideModal);
 
     function addProduct() {
         fetch("{% url 'main:add_product_ajax' %}", {
