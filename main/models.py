@@ -27,7 +27,7 @@ class Product(models.Model):
     brand = models.CharField(max_length=50, null=True, blank=True)
     condition = models.CharField(max_length=50, choices=condition_choices)
     stock = models.PositiveBigIntegerField()
-    image = models.ImageField(upload_to='product_images/', null=True, blank=True)
+    image = models.URLField(blank=True, null=True)
 
     def __str__(self):
         return self.name

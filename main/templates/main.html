@@ -139,7 +139,7 @@
                 htmlString += `
                     <div class="bg-gray-50 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
                         <div class="p-4">
-                            <img src="/media/${item.fields.image}" alt="${item.fields.name}" class="w-full h-48 object-contain mb-4">
+                            <img src="{{ MEDIA_URL }}${item.fields.image}" alt="${item.fields.name}" class="w-full h-48 object-contain mb-4">
                             <div class="bg-blue-400 text-white font-semibold text-center py-2 rounded-md mb-4">
                                 <h3 class="text-xl">${name}</h3>
                             </div>
