@@ -126,7 +126,7 @@ def add_product_ajax(request):
     brand = strip_tags(request.POST.get("brand"))
     condition = request.POST.get("condition")
     stock = request.POST.get("stock")
-    image = request.FILES.get("image")
+    image = request.POST.get("image")
     user = request.user
 
     new_product = Product(
