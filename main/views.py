@@ -119,17 +119,21 @@ def delete_product(request, id):
 @csrf_exempt
 @require_POST
 def add_product_ajax(request):
-    name = strip_tags(request.POST.get("name"))
-    price = request.POST.get("price")
-    description = strip_tags(request.POST.get("description"))
-    category = request.POST.get("category")
-    brand = strip_tags(request.POST.get("brand"))
-    condition = request.POST.get("condition")
-    stock = request.POST.get("stock")
-    image = request.POST.get("image")
-    user = request.user
+    # Ambil data JSON dari permintaan
+    data = json.loads(request.body)
+
+    # Ambil data dari JSON
+    name = data.get("name")
+    price = data.get("price")
+    description = data.get("description")
+    category = data.get("category")
+    brand = data.get("brand")
+    condition = data.get("condition")
+    stock = data.get("stock")
+    image = data.get("image")
 
     new_product = Product(
+        user=request.user,
         name=name,
         price=price,
         description=description,
@@ -138,10 +142,9 @@ def add_product_ajax(request):
         condition=condition,
         stock=stock,
         image=image,
-        user=user
     )
     new_product.save()
-    return HttpResponse(b"CREATED", status=201)
+    return JsonResponse({"status": "success"}, status=200)
 
 @csrf_exempt
 @login_required

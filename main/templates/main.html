@@ -74,7 +74,7 @@
                 </div>
                 <div class="mb-4">
                     <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
-                    <input type="text" id="image" name="image" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-yellow-500" placeholder="Enter image URL">
+                    <input type="url" id="image" name="image" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-yellow-500" placeholder="Enter image URL">
                 </div>
             </form>
         </div>
@@ -197,16 +197,48 @@
   document.getElementById("closeModalBtn").addEventListener("click", hideModal);
 
     function addProduct() {
+        // Ambil data dari form
+        const name = document.getElementById("name").value;
+        const price = document.getElementById("price").value;
+        const description = document.getElementById("description").value;
+        const category = document.getElementById("category").value;
+        const brand = document.getElementById("brand").value;
+        const condition = document.getElementById("condition").value;
+        const stock = document.getElementById("stock").value;
+        const image = document.getElementById("image").value; // Ambil URL gambar
+
+        // Kirim data ke server
         fetch("{% url 'main:add_product_ajax' %}", {
             method: "POST",
-            body: new FormData(document.querySelector('#productForm')),
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookie("csrftoken"), // Sertakan token CSRF
+            },
+            body: JSON.stringify({
+                name: name,
+                price: price,
+                description: description,
+                category: category,
+                brand: brand,
+                condition: condition,
+                stock: stock,
+                image: image,
+            }),
         })
-        .then(response => refreshProducts())  // Fungsi refreshProducts untuk menampilkan produk terbaru setelah penambahan.
+            .then((response) => {
+                if (response.ok) {
+                    refreshProducts(); // Perbarui daftar produk
+                    document.getElementById("productForm").reset(); // Kosongkan form
+                    document.querySelector("[data-modal-toggle='crudModal']").click(); // Tutup modal
+                } else {
+                    console.error("Failed to add product");
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
 
-        document.getElementById("productForm").reset();  // Mengosongkan form setelah submit.
-        document.querySelector("[data-modal-toggle='crudModal']").click();  // Menutup modal setelah submit.
-
-        return false;  // Mencegah refresh halaman.
+        return false; // Mencegah refresh halaman
     }
     document.getElementById("productForm").addEventListener("submit", (e) => {
     e.preventDefault();  // Mencegah refresh halaman setelah submit.
